@@ -20,7 +20,6 @@ function CreatePost() {
 
 
     return(
-
     <div className={`createPost`}>
         createPost
         <input 
@@ -37,12 +36,12 @@ function CreatePost() {
             создать пост 
         </button>                
         <>
-            {writeText.map((product) => (
-            <div className="NewPost" key={product.id}>
+            {writeText.map((text) => (
+            <div className="NewPost" key={text.id}>
                 <div className='NewPostImg'>новый пост</div>
                     <div className='NewPostComments'>
                 </div>
-                {product.name}</div>
+                {text.name}</div>
             ))}
         </>
     </div>

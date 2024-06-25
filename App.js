@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import './App.css';
 import Home from './Home/Home';
 import Lenta from './Lenta/Lenta';
-import CreatePost from './CreatePost/CreatePost';
+// import CreatePost from './CreatePost/CreatePost';
 
 
 function App() {
   const [isBurgerActive, setIsBurgerActive] = useState(false);
   const [LentaOpen, setLentaOpen] = useState(false);
-  const [CreatePostOpen, setCreatePostOpen] = useState(false);
+  // const [CreatePostOpen, setCreatePostOpen] = useState(false);
   const [HomeOpen, setHomeOpen] = useState(true);
 
   const HomeClick = (e) => {
@@ -74,7 +74,7 @@ function App() {
       <div className='content'>
         {HomeOpen && <Home />}
         {LentaOpen && <Lenta />}
-        {CreatePostOpen && <CreatePost />}
+        {/* {CreatePostOpen && <CreatePost />} */}
       
       </div>
     </div>

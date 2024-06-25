@@ -1,4 +1,4 @@
-.createBtn{
+.PlusBtn{
     display: flex;
     width: 30px;
     height: 30px;
@@ -8,31 +8,22 @@
     padding-top: 5px;
     margin-top: 20px;
     margin-left: 10px;
-    position: fixed;
+    position: relative;
 }
-.createPost{
+/* .createPost{
     display: flex;
     width: 300px;
     height: 420px;
     border: 1px solid black;
     margin-top: 30px;
     margin-left: 55px;
-}
-.createPost.active{
+} */
+/* .createPost.active{
     display: none;
-}
-.addBtn{
-    display: flex;
-    width: 298px;
-    height: 4cap;
-    border: 1px solid black;
-    background-color: rgba(247, 243, 243, 0.2);
-    margin-top: 380px;
-}
-.add:hover,
-.commit:hover {
+} */
+/* .commit:hover {
     background-color: rgba(5, 228, 109, 0.5);
-} 
+}  */
 
 .lenta {
     display: none;
@@ -41,7 +32,7 @@
 .lenta.active {
     display: flex;
 }
-.post{
+.lentaPost{
     display: flex;
     width: 300px;
     height: 300px;
@@ -51,13 +42,13 @@
     flex-direction: column;
     position: relative;
 }
-.postImg{
+.lentaPostImg{
     display: flex;
     width: 298px;
     height: 250px;
     border: 1px solid rgb(222, 4, 4);
 }
-.postCommit{
+.lentaPostComments{
     display: flex;
     width: 298px;
     height: 50px;
@@ -66,4 +57,70 @@
     padding: 5px;
     font-size: 16px;
     font-family: Billabong;
+    position: relative;
+}
+
+
+/* окно создание поста */
+.createPost{
+    display: none;
+    width: 300px;
+    height: 420px;
+    border: 1px solid rgb(0, 255, 13);
+    margin-top: 30px;
+    margin-left: 55px;
+    flex-direction: column;
+}
+.createPost.active{
+    display: flex;
+}
+.createCommments{
+    display: flex;
+    width: 298px;
+    height: 80px;
+    border: 1px solid black;
+    margin-top: 300px;
+    margin-left: 0px;
+    padding: 10px;
+    position: absolute;
+} 
+.CreateBtn{
+    display: flex;
+    width: 298px;
+    height: 4cap;
+    border: 1px solid black;
+    background-color: rgba(247, 243, 243, 0.2);
+    margin-top: 380px;
+    position: absolute;
+}
+/* созданный пост */
+.NewPost{
+    display: flex;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgb(0, 0, 0);
+    margin-top: 30px;
+    margin-left: 55px;
+    flex-direction: column;
+    position: relative;
+}
+.NewPost.active{
+    display: flex;
+}
+.NewPostImg{
+    display: flex;
+    width: 298px;
+    height: 250px;
+    border: 1px solid rgb(222, 4, 4);
+}
+.NewPostComments{
+    display: flex;
+    width: 298px;
+    height: 50px;
+    margin-bottom: 5px;
+    border-top: 1px solid rgb(0, 0, 0);
+    padding: 5px;
+    font-size: 16px;
+    font-family: Billabong;
+    position: relative;
 }
