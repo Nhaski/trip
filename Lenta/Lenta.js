@@ -1,157 +1,239 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+// import Vhod from '../Vhod/Vhod';
 // import CreatePost from "../CreatePost/CreatePost";
 import './Lenta.css';
 
-function Lenta () {
-
-    // const [createBtnActive, setcreateBtnActive] = useState(true);
+const Lenta = ({ EditRef, wrapperLentaRef }) => {
     const [CreatePostOpen, setCreatePostOpen] = useState(false);
-    const BTNPlus = (e) => { 
-        e.preventDefault();
-        setcreateBtnActive(!createBtnActive);
-        setCreatePostOpen(!CreatePostOpen);
-        console.log('click');
-    }
-
-    const [createBtnActive, setcreateBtnActive] = useState(true);
-    const [newPostActive, setnewPostActive] = useState(true);
+    const [activeText, setActiveText] = useState(false)
+    const [createBtnActive, setCreateBtnActive] = useState(true);
+    const [newPostActive, setNewPostActive] = useState(true);
+    const [textHeight, setTextHeight] = useState(600); // начальная высота textHeight
     const [inputText, setInputText] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
     const [writeText, setWriteText] = useState([]); 
+    const Respublik_Ref = useRef();
+    const Town_Ref = useRef();
+    const Date1_Ref = useRef();
+    const Date2_Ref = useRef();
+    const textRef = useRef(null);
+
     const [nextId, setNextId] = useState(() => {
         const savedNextId = ('nextId');
-        return savedNextId ? (savedNextId, 1) : 1;
+        return savedNextId ? parseInt(savedNextId, 10) : 1;
     });
-    const addPost = () => {
-        const newWriteText = { id: nextId, name: `${inputText}` };
-        setWriteText(prevWriteText => [...prevWriteText, newWriteText]);
-        setNextId(nextId + 1); // Увеличиваем nextId на единицу
-        setcreateBtnActive(!createBtnActive);
+
+    const BTNPlus = (e) => { 
+        e.preventDefault();
+        setCreateBtnActive(!createBtnActive);
         setCreatePostOpen(!CreatePostOpen);
-        // setnewPostActive(!newPostActive);
-        setInputText(''); // очищаем поле ввода
+        setImageUrl(''); // очищаем поле ввода        
     };
 
+    const addPost = () => {
+        const Respublic_Value = Respublik_Ref.current.value;
+        const Town_Value = Town_Ref.current.value;
+
+        let year1 = Date1_Ref.current.value[0] + Date1_Ref.current.value[1] + Date1_Ref.current.value[2] + Date1_Ref.current.value[3];
+        let month1 = Date1_Ref.current.value[5] + Date1_Ref.current.value[6];
+        let day1 = Date1_Ref.current.value[8] + Date1_Ref.current.value[9];
+
+        let year2 = Date2_Ref.current.value[0] + Date2_Ref.current.value[1] + Date2_Ref.current.value[2] + Date2_Ref.current.value[3];
+        let month2 = Date2_Ref.current.value[5] + Date2_Ref.current.value[6];
+        let day2 = Date2_Ref.current.value[8] + Date2_Ref.current.value[9];
+
+        const monthNames = [
+            'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
+            'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'
+        ];
+        month1 = monthNames[parseInt(month1, 10) - 1];
+        
+        const newWriteText = { id: nextId, Respublic: Respublic_Value, Town: Town_Value, Date1: day1, Date2: day2, Month1: month1, Year2: year2, Text: inputText, image: imageUrl };
+        setWriteText(prevWriteText => [...prevWriteText, newWriteText]);
+        setNextId(nextId + 1); // Увеличиваем nextId на единицу
+        setCreateBtnActive(!createBtnActive);
+        setCreatePostOpen(!CreatePostOpen);
+        setInputText(''); // очищаем поле ввода
+        setImageUrl(''); // очищаем поле ввода
+        Date1_Ref.current.value = '';
+        Date2_Ref.current.value = '';
+    };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const fileReader = new FileReader();
+            fileReader.onloadend = () => {
+                setImageUrl(fileReader.result);
+            };
+            fileReader.readAsDataURL(file);
+        }
+    };
+
+    const Podrobnee = () => {
+        setActiveText(!activeText); // открытие/закрытие текста
+        setTextHeight(textHeight);
+        const NEWHeightTEXT = textRef.current.scrollHeight; // получаем высоту текста
+        console.log(NEWHeightTEXT);
+    }
+
     return (
-        <div className="wrapper">
+        //  окно ленты 
+        <div className={`wrapperLenta`} ref={wrapperLentaRef}>
+            {/* <div className={`map ${createBtnActive ? 'active' : ''}`}>
+                <a href="https://visited.ru/">
+                <img 
+                    className={`homeImg`}
+                    // width="640" 
+                    // height="350" 
+                    src="https://visited.ru/rumap.php?visited=RDARKCRTARCEKDAPRIVLAVGGVORKGDKLUKRSLENMOSNIZROSRYASAMTVETULYAR"
+                    // src={`${process.env.PUBLIC_URL}/map.jpg`}
+                    border="0">
+                </img>
+                </a>  
+            </div> */}
+
             <button 
                 className={`PlusBtn`}
                 onClick={BTNPlus}
+                text="+" 
+                hover-text="создать пост"
             >
-                +
             </button>
-            <div className={`lenta ${createBtnActive ? 'active' : ''}`}>
-                <div className='lentaPost'>
-                    <div className='lentaPostImg'>Lenta</div>
+            <div className={`lenta ${createBtnActive ? 'active' : ''}`} >
+                <div className={`lentaPost `} ref={textRef} style={{ 
+                    height: `${textHeight}px` + `${textHeight}px`,
+                }}>
+                    <div className='lentaPostImg'>
+                    <img 
+                        className={`lentaPostImg`}
+                        width="640" 
+                        height="350" 
+                        // src="https://visited.ru/rumap.php?visited=RDARKCRTARCEKDAPRIVLAVGGVORKGDKLUKRSLENMOSNIZROSRYASAMTVETULYAR"
+                        src={`${process.env.PUBLIC_URL}/map.jpg`}
+                        border="0">
+                    </img>
+                    </div>
                     <div className='lentaPostComments'>
-                        г. Владивосток. Мы прилетели в феврале.
+                        <div>
+                            <h4> Край: 
+                                <div className="edit" ref={EditRef} style={{backgroundColor: 'lightblue'}}>...</div>
+                            </h4>
+                        </div>
+                        <h6> Город: Владивосток</h6>
+                        <div className="postData">
+                            &#128467;<p> 6-15 February 2024</p>
+                        </div>
+                        <p className={`postParagraph `} >
+                            г. Владивосток. Посещенные места: о. Русский, Золотой мост, Русский мост. 
+                            Владивосток с трех сторон окружен морем, так что первым делом можно отправиться 
+                            гулять
+                            </p> 
+                        <span id="dots1"></span>
+                        <span id="more1">
+                            
+                        <p className={`postParagraph2 ${activeText ? 'active' : ''}`} >    
+                            по набережным: Спортивной, Корабельной, или Цесаревича. Или постройте 
+                            маршрут по улицам Светланской, Алеутской и местному Арбату – улице Адмирала Фокина. 
+                            Обязательно прогуляйтесь по главной площади города — Борцов революции и пройдите до Миллионки 
+                            (бывший китайский квартал), чтобы сделать колоритные фото. Не забудьте и про остров Русский.
+                        </p>
+                        </span>
+
+                        <button 
+                            text="Подробнее ..." 
+                            className={`PodrobneeClassname`}
+                            onClick={Podrobnee}
+                        >  
+                        </button>
                     </div>
                 </div>
-
-                <>
-                    {writeText.map((text) => (
-                        <div className={`NewPost ${newPostActive ? 'active' : ''}`} key={text.id}>
-                            <div className='NewPostImg'>картинка нового поста</div>
-                                <div className='NewPostComments'>
-                                {text.name}
-                            </div>
+                {/* созданный новый пост */}
+                {writeText.map((NewCreatePost) => (
+                    <div className={`NewPost ${newPostActive ? 'active' : ''}`} key={NewCreatePost.id}>
+                        <div className={`NewPostImg`}>
+                            <img 
+                                className={`Img`}
+                                src={NewCreatePost.image}
+                            />  
                         </div>
-                    ))}
-                </>
+                        <div className='NewPostComments'>
+                            <h4> {NewCreatePost.Respublic} 
+                                <button className="edit">. . .</button> 
+                            </h4>
+                            <h6> {NewCreatePost.Town} </h6>
+                            <p className="postData"> &#128467; {NewCreatePost.Date1} - {NewCreatePost.Date2} {NewCreatePost.Month1} {NewCreatePost.Year2} </p>
+                            <p> {NewCreatePost.Text} </p>
+                        </div>
+                    </div>
+                ))}
             </div>
-            {/* {CreatePostOpen && <CreatePost />} */}
-
-
-
+            {/* окно создания поста */}
             <div className={`createPost ${CreatePostOpen ? 'active' : ''}`}>
-                createPost
-                <input 
-                    type="text"
-                    className='createCommments' 
-                    placeholder='описание к фото' 
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                > 
-                </input>
-                <button 
-                    className='CreateBtn' 
-                    onClick={addPost}>
-                    создать пост 
-                </button>                
+                <img 
+                    src={imageUrl}
+                    className="CreatePostImg"
+                />
 
+                <label htmlFor="owner">Республика/Область:
+                    <select className="SelectObjectRF" ref={Respublik_Ref}>
+                        <option className="Respyblika" value="Республика Адыгея">Республика Адыгея</option>
+                        <option className="Respyblika" value="Республика Алтай">Республика Алтай</option>
+                        <option className="Respyblika" value="Республика Башкортостан">Республика Башкортостан</option>
+                        <option className="Respyblika" value="Республика Дагестан">Республика Дагестан</option>
+                        <option className="oblast" value="Владимирская область" >Владимириская область</option>
+                        <option className="oblast" value="Воронежская область" >Воронежская область</option>
+                        <option className="oblast" value="Калининградская область" >Калининградская область</option>
+                        <option className="oblast" value="Сахалинская область" >Сахалинская область</option>
+                    </select>
+                </label>
+                <label htmlFor="owner">Город:
+                    <select className="SelectObjectRF" ref={Town_Ref}>
+                        <option className="Town" value="Воронеж">Воронеж</option>
+                        <option className="Town" value="Калининград">Калининград</option>
+                        <option className="Town" value="Махачкала">Махачкала</option>
+                        <option className="Town" value="Тверь">Тверь</option>
+                        <option className="Town" value="Казань">Казань</option>
+                        <option className="Town" value="Владивосток" >Владивосток</option>
+                        <option className="Town" value="Тула" >Тверь</option>
+                        <option className="Town" value="Южно-Сахалинск" >Южно-Сахалинск</option>
+                    </select>
+                </label>
+                <label htmlFor="owner">Даты с:
+                    <input type="date" ref={Date1_Ref} className="SelectObjectRF"/>
+                </label>
+                <label htmlFor="owner">Даты по:
+                    <input type="date" ref={Date2_Ref} className="SelectObjectRF"/>
+                </label>
+                <div className="CreateCommentsPost">
+                    <label htmlFor="fileUploaderButtonID" className="fileUploaderButtonCustom">
+                        {/* символ скрепки */}
+                        &#128206; 
+                    </label>
+                    <input 
+                        id="fileUploaderButtonID"
+                        className="fileUploaderButton"
+                        type="file"
+                        onChange={handleFileChange}
+                    />
+                    <input 
+                        type="text"
+                        className='createCommments' 
+                        placeholder='описание к фото' 
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                    /> 
+                    <button 
+                        className='CreateBtn' 
+                        onClick={addPost}>
+                        {/* символ стрелки */}
+                        &#8593;
+                    </button>  
+                </div>
             </div>
-
-
-
         </div>
-      );
+        
+    );
 }
 
 export default Lenta;
-
-
-
-
-// import React, {useState} from "react";
-// import './CreatePost.css'
-
-// function CreatePost() {
-//     const [inputText, setInputText] = useState('');
-//     const [createBtnActive, setcreateBtnActive] = useState(false);
-
-//     const [comments, setComments] = useState([]);
-
-//     const [newPost, setNewPost] = useState([]);
-//     const nextPost = {id: newPost.length + 1}; // Уникальный ID для каждого объекта 
-
-//     function addPost () {
-//             setNewPost([...newPost, nextPost]); // Добавление нового объекта в массив
-//             setcreateBtnActive(!createBtnActive);
-
-//             setComments([...comments, inputText]);
-//             setInputText('');
-//             console.log(nextPost);
-//     };
-
-
-//     return(
-
-//     <div className={`createPost`}>
-//         createPost
-//         <input 
-//             type="text"
-//             className='createCommments' 
-//             placeholder='описание к фото' 
-//             value={inputText}
-//             onChange={(e) => setInputText(e.target.value)}
-//         > 
-//         </input>
-//         <button 
-//             className='CreateBtn' 
-//             onClick={addPost}>
-//             создать пост 
-//         </button>
-
-
-//         <>
-//             {newPost.map((newPost) => (
-//                 <div className='NewPost'>
-//                     <div className='NewPostImg'>новый пост</div>
-//                     <div 
-//                         className='NewPostComments'
-//                         key={newPost.id}
-//                     >
-//                         {comments.map((component, index) => (
-//                         <p key={index}> {component} </p>
-//                         ))} 
-                         
-//                     </div>
-//                 </div>
-//             ))}
-//         </>        
-//     </div>
-
-
-//     );
-// }
-
-// export default CreatePost;

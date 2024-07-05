@@ -1,35 +1,13 @@
-/* global ymaps3 */  // Добавьте это для объявления глобальной переменной
+import React from 'react';
+import YandexMap from './YandexMap';
 
-import React, { useEffect, useRef } from 'react';
-
-const YandexMap = () => {
-  const mapRef = useRef(null);
-
-  useEffect(() => {
-    const initMap = async () => {
-      await ymaps3.ready;
-      const { YMap, YMapDefaultSchemeLayer } = ymaps3;
-
-      const map = new YMap(mapRef.current, {
-        location: {
-          center: [37.588144, 55.733842],
-          zoom: 10,
-        },
-      });
-
-      map.addChild(new YMapDefaultSchemeLayer());
-    };
-
-    initMap();
-  }, []);
-
+function App() {
   return (
-    <div
-      id="map"
-      ref={mapRef}
-      style={{ width: '600px', height: '400px' }}
-    ></div>
+    <div className="App">
+      <h1>Яндекс.Карта в React</h1>
+      <YandexMap />
+    </div>
   );
-};
+}
 
-export default YandexMap;
+export default App;
