@@ -2,13 +2,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 import Home from './Home/Home';
 import Lenta from './Lenta/Lenta';
-import Vhod from './Vhod/Vhod';
+// import Vhod from './Vhod/Vhod';
 
 function App() {
   const [isBurgerActive, setIsBurgerActive] = useState(false);
   const [LentaOpen, setLentaOpen] = useState(false);
-  const [HomeOpen, setHomeOpen] = useState(true);
-  const [VhodOpen, setVhodOpen] = useState(false); 
+  const [HomeOpen, setHomeOpen] = useState(true); // переключить на true
+  const [VhodOpen, setVhodOpen] = useState(false);  // переключить на false
   const [lastOpen, setLastOpen] = useState('home'); // Новое состояние для отслеживания последнего открытого элемента
   const [inputValue, setInputValue] = useState('');
   const VhodBtnRef = useRef();
@@ -36,7 +36,7 @@ function App() {
     setIsBurgerActive(!isBurgerActive);
   };
   // открываем стр. входа, а после ее закрытия - открываем последнюю открытую страницу
-  const VhodPage = (e) => {
+  const VhodSignOut = (e) => {
     if (VhodOpen) {
       setVhodOpen(false);
       if (lastOpen === 'home') {
@@ -55,10 +55,10 @@ function App() {
     setIsBurgerActive(!isBurgerActive);
   };
 
-  function buttonGo (event) {
+  function Sign () {
     const inputLoginRefValue = inputLoginRef.current.value;
     const inputPasswordRefValue = inputPasswordRef.current.value;
-    if (event.key === 'Enter' && inputLoginRefValue == 'a' & inputPasswordRefValue == '1' ) {
+    if (inputLoginRefValue == 'a' & inputPasswordRefValue == '1' ) {
       VhodBtnRef.current.style.display = 'none'; 
       VhodDoneBtnRef.current.style.display = 'flex'; 
       VhodTextAdminRef.current.style.display = 'flex';
@@ -67,23 +67,42 @@ function App() {
       }
       setInputValue('');
       setVhodOpen(false);
+      VhodSignOut();
     }
   }
+  function Out () {
+    // const inputLoginRefValue = inputLoginRef.current.value;
+    // const inputPasswordRefValue = inputPasswordRef.current.value;
+    if(VhodTextAdminRef.current.style.display = 'flex'){
+      VhodBtnRef.current.style.display = 'flex'; 
+      VhodDoneBtnRef.current.style.display = 'none'; 
+      VhodTextAdminRef.current.style.display = 'none';
+    }
+    if (EditRef.current) {
+      EditRef.current.style.display = 'none';
+    }
+    setInputValue('');
+    setVhodOpen(false);
+    VhodSignOut();
+  }
+  
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
+
   const handleKeyPress = (event) => {
     const inputLoginRefValue = inputLoginRef.current.value;
     const inputPasswordRefValue = inputPasswordRef.current.value;
     if (event.key === 'Enter' && inputLoginRefValue == 'a' && inputPasswordRefValue == '1') {
       setInputValue('');
-      VhodBtnRef.current.style.display = 'none'; // Изменяем цвет фона кнопки
+      VhodBtnRef.current.style.display = 'none'; 
       VhodDoneBtnRef.current.style.display = 'flex'; 
       VhodTextAdminRef.current.style.display = 'flex';
       if (EditRef.current) {
         EditRef.current.style.display = 'flex';
       }
       setVhodOpen(false);
+      VhodSignOut();
     }
   };
 
@@ -138,11 +157,12 @@ function App() {
               ref={inputPasswordRef}
               onKeyDown={handleKeyPress}
             ></input>
-            <button className="buttonGo" type="submit" onClick={buttonGo} > Sign in </button>
+            <button className="buttonSign" type="submit" onClick={Sign} > Sign in </button>
+            <button className="buttonOut" type="submit" onClick={Out} > Out </button>
           </div>
         </div>
 
-        <button onClick={VhodPage} >
+        <button onClick={VhodSignOut} >
           <img 
             className={'Vhodmen'}
             ref={VhodBtnRef}
@@ -186,8 +206,6 @@ export default App;
 // import foto from './foto.png';
 // import YandexMap from './YandexMap';
 
-
-
 // const ScrollContainer = () => {
 //   return (
 //     <div className="scroll-container">
@@ -200,16 +218,10 @@ export default App;
 
 // export default ScrollContainer;
 
-
-
-
-
 // // import React from 'react';
 // // import './App.css';
 // // import foto from './foto.png';
 // // import YandexMap from './YandexMap';
-
-
 
 // // const ScrollContainer = () => {
 // //   return (

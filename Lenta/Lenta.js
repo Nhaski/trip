@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 // import Vhod from '../Vhod/Vhod';
-// import CreatePost from "../CreatePost/CreatePost";
 import './Lenta.css';
 
 const Lenta = ({ EditRef, wrapperLentaRef }) => {
@@ -8,10 +7,17 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
     const [activeText, setActiveText] = useState(false)
     const [createBtnActive, setCreateBtnActive] = useState(true);
     const [newPostActive, setNewPostActive] = useState(true);
+    const [EditWindowOpen, setEditWindowOpen] = useState(true);
+    const [activeEditId, setActiveEditId] = useState(null);
+
     const [textHeight, setTextHeight] = useState(600); // начальная высота textHeight
     const [inputText, setInputText] = useState('');
     const [imageUrl, setImageUrl] = useState('');
-    const [writeText, setWriteText] = useState([]); 
+    const [writeText, setWriteText] = useState(() => {
+        const savedPosts = localStorage.getItem('NewCreatingPost');
+        return savedPosts ? JSON.parse(savedPosts) : [];
+    }); 
+
     const Respublik_Ref = useRef();
     const Town_Ref = useRef();
     const Date1_Ref = useRef();
@@ -19,9 +25,17 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
     const textRef = useRef(null);
 
     const [nextId, setNextId] = useState(() => {
-        const savedNextId = ('nextId');
+        const savedNextId = localStorage.getItem('nextId');
         return savedNextId ? parseInt(savedNextId, 10) : 1;
     });
+
+    useEffect(() => {
+        localStorage.setItem('nextId', nextId);
+    }, [nextId]);
+
+    useEffect(() => {
+        localStorage.setItem('NewCreatingPost', JSON.stringify(writeText));
+    }, [writeText]);
 
     const BTNPlus = (e) => { 
         e.preventDefault();
@@ -48,7 +62,16 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
         ];
         month1 = monthNames[parseInt(month1, 10) - 1];
         
-        const newWriteText = { id: nextId, Respublic: Respublic_Value, Town: Town_Value, Date1: day1, Date2: day2, Month1: month1, Year2: year2, Text: inputText, image: imageUrl };
+        const newWriteText = { 
+            id: nextId, 
+            Respublic: Respublic_Value, 
+            Town: Town_Value, 
+            Date1: day1, 
+            Date2: day2, 
+            Month1: month1, 
+            Year2: year2, 
+            Text: inputText, 
+            image: imageUrl };
         setWriteText(prevWriteText => [...prevWriteText, newWriteText]);
         setNextId(nextId + 1); // Увеличиваем nextId на единицу
         setCreateBtnActive(!createBtnActive);
@@ -76,23 +99,14 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
         const NEWHeightTEXT = textRef.current.scrollHeight; // получаем высоту текста
         console.log(NEWHeightTEXT);
     }
+    const EditClick = (id) => {
+        setActiveEditId(activeEditId === id ? null : id);
+    };
+    
 
     return (
         //  окно ленты 
         <div className={`wrapperLenta`} ref={wrapperLentaRef}>
-            {/* <div className={`map ${createBtnActive ? 'active' : ''}`}>
-                <a href="https://visited.ru/">
-                <img 
-                    className={`homeImg`}
-                    // width="640" 
-                    // height="350" 
-                    src="https://visited.ru/rumap.php?visited=RDARKCRTARCEKDAPRIVLAVGGVORKGDKLUKRSLENMOSNIZROSRYASAMTVETULYAR"
-                    // src={`${process.env.PUBLIC_URL}/map.jpg`}
-                    border="0">
-                </img>
-                </a>  
-            </div> */}
-
             <button 
                 className={`PlusBtn`}
                 onClick={BTNPlus}
@@ -101,7 +115,7 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
             >
             </button>
             <div className={`lenta ${createBtnActive ? 'active' : ''}`} >
-                <div className={`lentaPost `} ref={textRef} style={{ 
+                {/* <div className={`lentaPost `} ref={textRef} style={{ 
                     height: `${textHeight}px` + `${textHeight}px`,
                 }}>
                     <div className='lentaPostImg'>
@@ -117,7 +131,7 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
                     <div className='lentaPostComments'>
                         <div>
                             <h4> Край: 
-                                <div className="edit" ref={EditRef} style={{backgroundColor: 'lightblue'}}>...</div>
+                                <div className="edit" ref={EditRef} onClick={EditClick} style={{backgroundColor: 'lightgrey'}}>...</div>
                             </h4>
                         </div>
                         <h6> Город: Владивосток</h6>
@@ -147,7 +161,13 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
                         >  
                         </button>
                     </div>
-                </div>
+                </div> */}
+                {/* <div className={`EditWindow ${EditWindowOpen ? 'active' : ''}`} >
+                    <button className="EditChangeBtn"> Редактировать </button>
+                    <button className="EditDeleteBtn"> Удалить </button>
+                </div> */}
+
+
                 {/* созданный новый пост */}
                 {writeText.map((NewCreatePost) => (
                     <div className={`NewPost ${newPostActive ? 'active' : ''}`} key={NewCreatePost.id}>
@@ -158,9 +178,20 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
                             />  
                         </div>
                         <div className='NewPostComments'>
-                            <h4> {NewCreatePost.Respublic} 
-                                <button className="edit">. . .</button> 
-                            </h4>
+                            <h4> {NewCreatePost.Respublic} </h4>
+                                <div 
+                                    className="edit" 
+                                    id={NewCreatePost.id} 
+                                    onClick={() => EditClick (NewCreatePost.id) } 
+                                    style={{backgroundColor: 'lightgrey'}}
+                                >...</div>
+{activeEditId === NewCreatePost.id && (
+    <div className={`EditWindow ${EditWindowOpen ? 'active' : ''}`} >
+        <button className="EditChangeBtn" > Редактировать </button>
+        <button className="EditDeleteBtn"> Удалить </button>
+    </div>
+)}
+
                             <h6> {NewCreatePost.Town} </h6>
                             <p className="postData"> &#128467; {NewCreatePost.Date1} - {NewCreatePost.Date2} {NewCreatePost.Month1} {NewCreatePost.Year2} </p>
                             <p> {NewCreatePost.Text} </p>
@@ -174,7 +205,6 @@ const Lenta = ({ EditRef, wrapperLentaRef }) => {
                     src={imageUrl}
                     className="CreatePostImg"
                 />
-
                 <label htmlFor="owner">Республика/Область:
                     <select className="SelectObjectRF" ref={Respublik_Ref}>
                         <option className="Respyblika" value="Республика Адыгея">Республика Адыгея</option>

@@ -34,8 +34,6 @@
   min-height: 42px;
   position: fixed;
   backdrop-filter: blur(1px);
-  /* border-bottom: 1px solid black; */
-  /* box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5); */
   align-items: center;
   list-style-type: none;
   z-index: 75;
@@ -64,42 +62,6 @@
 }
 .btn:hover {
   background-color: #858788;
-}
-.Vhodmen{
-  display: flex;
-  width: 20px; 
-  height: 20px;
-  background-color: white;
-  cursor: pointer;
-  top: 10px;
-  right: 50px;
-  position: fixed;
-}
-.Vhodmen:hover{
-  top: 5px;
-  width: 30px; 
-  height: 30px;
-}
-.VhodmenDone{
-  display: none;
-  width: 20px; 
-  height: 20px;
-  background-color: white;
-  cursor: pointer;
-  top: 10px;
-  right: 50px;
-  position: fixed;
-}
-.VhodmenDone:hover{
-  top: 5px;
-  width: 30px; 
-  height: 30px;
-}
-.VhodTextAdminClassname{
-  display: flex;
-  right: 80px;
-  color: rgb(37, 117, 56);
-  position: fixed;
 }
 .burgerButton{
   width: 30px;
@@ -162,6 +124,131 @@
   left: 0;
   position: absolute;
 }
+
+/* СТИЛИЗАЦИЯ КНОПКИ ВХОДА */
+.Vhodmen{
+  display: flex;
+  width: 20px; 
+  height: 20px;
+  background-color: white;
+  cursor: pointer;
+  top: 10px;
+  right: 50px;
+  position: fixed;
+}
+.Vhodmen:hover{
+  top: 5px;
+  width: 30px; 
+  height: 30px;
+}
+.VhodmenDone{
+  display: none;
+  width: 20px; 
+  height: 20px;
+  background-color: white;
+  cursor: pointer;
+  top: 10px;
+  right: 50px;
+  position: fixed;
+}
+.VhodmenDone:hover{
+  top: 5px;
+  width: 30px; 
+  height: 30px;
+}
+.VhodTextAdminClassname{
+  display: flex;
+  right: 80px;
+  color: rgb(37, 117, 56);
+  position: fixed;
+}
+.wrapperVhod{
+  display: flex;
+}
+
+.wrapperVhodImg{
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+@media screen and (max-width: 500px) {
+  .wrapperVhodImg{
+      width: 450vw;
+      height: 150vh;
+      padding-bottom: 400px;
+      margin-left: -600px;
+      position: fixed;
+
+  }
+}
+.inputsVhod{
+  display: none;
+}
+.inputsVhod.active{
+  display: flex;
+}
+.inputLogin{
+  display: flex;
+  width: 200px;
+  height: 30px;
+  padding-left: 5px;
+  border: 1px solid black;
+  margin-top: 250px;
+  margin-left: 80px;
+  position: absolute;
+  z-index: 2;
+}
+.inputPassword{
+  display: flex;
+  width: 200px;
+  height: 30px;
+  padding-left: 5px;
+  border: 1px solid black;
+  margin-top: 290px;
+  margin-left: 80px;
+  position: absolute;
+  z-index: 2;
+}
+.buttonSign{
+  display: flex;
+  width: 100px;
+  height: 30px;
+  padding-left: 5px;
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  margin-top: 330px;
+  margin-left: 80px;
+  background-color: rgb(33, 182, 56);
+  position: absolute;
+  z-index: 2;
+}
+.buttonOut{
+  display: flex;
+  width: 100px;
+  height: 30px;
+  padding-left: 5px;
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  margin-top: 330px;
+  margin-left: 180px;
+  background-color: rgb(229, 49, 49);
+  position: absolute;
+  z-index: 2;
+}
+.buttonSign:hover{
+  background-color: rgb(11, 244, 100);
+}
+
+
+
+
+
+
+
 
 
 
