@@ -3,6 +3,25 @@
     margin-top: 50px;
     position: absolute;
 }
+.EmptyBlock{
+    display: none; 
+    margin-top: -50px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    /* background-color: rgba(100, 100, 100, 0.5); */
+    background-color: none;
+    z-index: 3;
+}
+/* Добавляем класс active для анимации empty_block (прозрачного блока) */
+.EmptyBlock.active{
+    display: flex;
+    background-color: none;
+    z-index: 3;
+}
 .map{
     display: flex;
     width: 100vw;
@@ -15,27 +34,29 @@
 }
 .mapImg{
     display: flex;
-    width: 100%;
-    height: 20%;
+    width: 50%;
+    height: 50%;
     margin-top: 20px;
     margin-left: -20px;
     /* position: absolute; */
 }
 .PlusBtn::before{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-color: rgb(0, 152, 56);
     content: attr(text);
     border-radius: 50%;
-    padding-left: 10px;
-    padding-top: 10px;
-    margin-top: -5px;
-    margin-left: 10px;
+    /* padding-left: 10px; */
+    /* padding-top: 10px; */
+    margin-top: -45px;
+    right: 85px;
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    z-index: 2;
+    z-index: 76;
 }
-.PlusBtn:hover::before{
+/* .PlusBtn:hover::before{
     display: flex;
     width: 200px;
     height: 30px;
@@ -46,13 +67,12 @@
     padding-top: 5px;
     margin-left: 10px;
     position: fixed;
-    z-index: 2;
-}
+    z-index: 5;
+} */
 .lenta {
     display: none;
     flex-direction: column;
     padding-bottom: 100px;
-    z-index: 1;
     position: absolute;
 }
 .lenta.active {
@@ -92,28 +112,18 @@
     flex-direction: column;
     position: relative;
 }
-h4{
-    font-size: 18px;
-    font-family: 'Playfair Display', serif;
-    color: #222222;
-    font-weight: 600;
-    line-height: 1.3em;
-    -ms-word-wrap: break-word;
-    word-wrap: break-word;
-}
 .edit{
     display: flex;
-    width: 30px;
+    width: 50px;
     height: 15px;
     align-items: center; 
     justify-content: center;
-    top: 10px;
-    right: 20px;
     padding-bottom: 7px;
     border-radius: 20px;
     border: 1px solid grey;
     cursor: pointer;
-    position: absolute;
+    position: relative;
+    /* flex-direction: row; */
 }
 .EditWindow{
     display: none;
@@ -124,10 +134,11 @@ h4{
     border-radius: 10px;
     flex-direction: column;
     position: absolute;
-    z-index: 2;
+    z-index: 5;
 }
 .EditWindow.active{
     display: flex;
+    z-index: 5;
 }
 .EditChangeBtn{
     display: flex;
@@ -140,9 +151,11 @@ h4{
     border-top-right-radius: 10px;
     align-items: center;
     justify-content: center;
+    z-index: 5;
 }
 .EditChangeBtn:hover{
     background-color: rgb(0, 152, 56);
+    z-index: 5;
 }
 .EditDeleteBtn{
     display: flex;
@@ -157,24 +170,16 @@ h4{
     border-bottom-right-radius: 10px;
     align-items: center;
     justify-content: center;
+    z-index: 5;
 }
 .EditDeleteBtn:hover{
     background-color: rgb(222, 44, 47);
+    z-index: 5;
 }
 h6{
     font-size: 15px;
-    font-family: 'Playfair Display', serif;
-    color: #222222;
-    font-weight: 600;
-    line-height: 1.3em;
-    -ms-word-wrap: break-word;
-    word-wrap: break-word;
-}
-.postData{
-    display: flex;
+    width: 100vw;
     flex-direction: row;
-    margin-top: 10px;
-
     font-family: 'PT Serif', serif;
     font-size: 15px;
     color: #555555;
@@ -183,6 +188,21 @@ h6{
     letter-spacing: 0.05em;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
+}
+.postData{
+    display: flex;
+    width: 100%;
+    /* margin-left: 80px; */
+    flex-direction: row;
+    font-family: 'PT Serif', serif;
+    font-size: 15px;
+    color: #555555;
+    font-weight: 400;
+    line-height: 1.5em;
+    letter-spacing: 0.05em;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    position: relative;
 }
 .postParagraph{
     display: flex;
@@ -331,12 +351,18 @@ label {
 /* созданный пост */
 .NewPost{
     display: flex;
-    width: 395px;
-    border: 0px solid rgb(128, 127, 127);
-    box-shadow: 1px 1px 9px 2px rgb(0 0 0 / 40%);
-    padding: 10px;
+    width: calc(100vw - 30px);
+    height: 100%;
+    box-sizing: border-box; /* включает отступы и границы в ширину */
+    /* border: 0px solid rgb(128, 127, 127);
+    box-shadow: 1px 1px 9px 2px rgb(0 0 0 / 40%); */
+    /* padding: 10px; */
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+    justify-content: space-between;
+    /* align-items: center; */
+    align-items: stretch;
     flex-direction: column;
     position: relative;
 }
@@ -345,33 +371,32 @@ label {
 }
 .NewPostImg{
     display: flex;
-    width: 377px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
     margin-top: -1px;
-    margin-left: -1px;
+    /* margin-left: -1px; */
     margin-bottom: -1px;
 }
 .Img{
     display: flex;
-    width: 377px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
     margin-top: -1px;
-    margin-left: -1px;
+    /* margin-left: -1px; */
     margin-bottom: -1px;
 }
 .NewPostComments{
     display: flex;
     width: 390px;
-    margin-bottom: 5px;
     margin-top: 10px;
-    margin-left: -2px;
+    /* margin-left: -2px; */
     padding: 5px;
     font-size: 14px;
     font-family: Billabong;
     flex-direction: column;
     position: relative;
     margin-bottom: 15px;
-    font-family: 'PT Serif', serif;
+    /* font-family: 'PT Serif', serif; */
     font-size: 16px;
     color: #555555;
     font-weight: 400;
@@ -380,4 +405,99 @@ label {
     -ms-word-wrap: break-word;
     word-wrap: break-word;
 }
+.NewPostZagolovok{
+    display: flex;
+    /* flex-direction: row; */
+    width: calc(100vw - 50px);
+    /* width: 100%; */
+}
 
+/* окно редактирования поста */
+.Edit_This_Post{
+    display: none;
+    width: 395px;
+    box-shadow: 1px 1px 9px 2px rgb(0 0 0 / 40%);
+    padding: 10px;
+    margin-top: 50px;
+    margin-left: 10px;
+    flex-direction: column;
+    position: absolute;
+}
+.Edit_This_Post.active{
+    display: flex;
+}
+/* стандартная кнопка загрузки файлов */
+.fileUploaderButton{
+    opacity: 0;
+    position: relative;
+    z-index: 4;
+}
+/* кастомная кнопка загрузки файлов */
+.fileUploaderButtonCustom{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 18px;
+    padding: 5px;
+    margin-top: 2px;
+    position: relative;
+    z-index: 5;
+}
+.CreatePostImg{
+    display: flex;
+    width: 377px;
+    height: 350px;
+    margin-top: -1px;
+    margin-left: -1px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    position: relative;
+}
+.CreateCommentsPost{
+    display: flex;
+    width: 390px;
+    margin-bottom: 20px;
+    margin-left: -2px;
+    font-size: 14px;
+    font-family: Billabong;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+.createCommments{
+    display: flex;
+    width: 278px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin-left: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: absolute;
+    z-index: 1;
+} 
+.CreateBtn{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: rgb(13, 225, 105);
+    margin-left: 258px;
+    padding-top: 5px;
+    padding-left: 10px;
+    position: absolute;
+    /* position: relative; */
+    z-index: 2;
+}
+.SelectObjectRF{
+    /* display: flex; */
+    margin-left: 10px;
+    cursor: pointer;
+}

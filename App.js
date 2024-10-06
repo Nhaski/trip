@@ -104,7 +104,7 @@ function App() {
       setVhodOpen(false);
       VhodSignOut();
     }
-  };
+  }; 
 
   return (
     <div className="wrapperApp">
